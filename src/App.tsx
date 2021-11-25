@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState }  from 'react';
+import { SessionProvider, LoginButton, LogoutButton } from "@inrupt/solid-ui-react";
 import './App.css';
+import Dashboard from './Dashboard';
+const authOptions = {
+  clientName: "Solid Todo App",
+};
 
 function App() {
+  const [idp, setIdp] = useState("https://inrupt.net");
+
+  const restoreCallback = (url: string) => {
+    console.log(`Use this function to navigate back to ${url}`);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SessionProvider
+      onError={console.log}
+      restorePreviousSession
+      onSessionRestore={restoreCallback}
+    >
+
+      <input className="oidc-issuer-input " type="url"
+              name="oidcIssuer"
+              list="providers" value={idp} onChange={(e) => setIdp(e.target.value)} />
+
+      <LoginButton
+        oidcIssuer={idp}
+        redirectUrl={window.location.href}
+        onError={console.log}
+        authOptions={authOptions}
+      />
+
+      <LogoutButton onError={console.log} />
+      <Dashboard />
+    </SessionProvider>
   );
 }
 
