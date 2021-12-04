@@ -18,14 +18,14 @@ import {
   useThing,
   useSession,
 } from "@inrupt/solid-ui-react";
-//import { session } from "rdf-namespaces/dist/link";
+import{cal, rdf}from 'rdf-namespaces';
 import React from "react";
 
 const TEXT_PREDICATE = "http://schema.org/text";
-const CREATED_PREDICATE = "http://www.w3.org/2002/12/cal/ical#created";
-const COMPLETED_PREDICATE = "http://www.w3.org/2002/12/cal/ical#completed";
-const TODO_CLASS = "http://www.w3.org/2002/12/cal/ical#Vtodo";
-const TYPE_PREDICATE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+const CREATED_PREDICATE = cal.created;
+const COMPLETED_PREDICATE = cal.completed;
+const TODO_CLASS = cal.Vtodo;
+const TYPE_PREDICATE = rdf.type;
 
 interface todoListProps{
   todoList: SolidDataset & WithServerResourceInfo;

@@ -12,8 +12,9 @@ import { getSolidDataset, getUrlAll, getThing, SolidDataset, WithServerResourceI
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import { getOrCreateTodoList } from "./utils";
+import{space} from 'rdf-namespaces'
 
-const STORAGE_PREDICATE = "http://www.w3.org/ns/pim/space#storage";
+const STORAGE_PREDICATE = space.storage;
 
 const authOptions = {
   clientName: "Solid Todo App",

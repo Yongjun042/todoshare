@@ -11,13 +11,14 @@ import {
   SolidDataset ,
   WithServerResourceInfo,
 } from "@inrupt/solid-client";
+import{cal, rdf}from 'rdf-namespaces';
 import { useSession } from "@inrupt/solid-ui-react";
 import React, { useState } from "react";
 
 const TEXT_PREDICATE = "http://schema.org/text";
-const CREATED_PREDICATE = "http://www.w3.org/2002/12/cal/ical#created";
-const TODO_CLASS = "http://www.w3.org/2002/12/cal/ical#Vtodo";
-const TYPE_PREDICATE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+const CREATED_PREDICATE = cal.created;
+const TODO_CLASS = cal.Vtodo;
+const TYPE_PREDICATE = rdf.type;
 
 interface todoListProps{
   todoList: SolidDataset & WithServerResourceInfo;
