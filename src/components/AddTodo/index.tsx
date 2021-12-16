@@ -14,7 +14,8 @@ import {
 import{cal, rdf}from 'rdf-namespaces';
 import { useSession } from "@inrupt/solid-ui-react";
 import React, { useState } from "react";
-import { Input, Button } from "@mantine/core";
+import { TextInput, Button } from "@mantine/core";
+import "./index.scss";
 
 const TEXT_PREDICATE = "http://schema.org/text";
 const CREATED_PREDICATE = cal.created;
@@ -60,15 +61,16 @@ function AddTodo( {todoList, setTodoList}: todoListProps) {
 
   return (
       <form className="todo-form" onSubmit={handleSubmit}>
-        <label htmlFor="todo-input">
-          <Input
+          <TextInput
             id="todo-input"
             type="text"
+            label="Todo is..."
             value={todoText}
             onChange={handleChange}
+            rightSection={<Button className="add-button" type="submit">Add Todo</Button>}
+            rightSectionWidth={100}
           />
-        </label>
-        <Button className="add-button" type="submit">Add Todo</Button>
+        
       </form>
   );
 }

@@ -18,8 +18,10 @@ import {
   useThing,
   useSession,
 } from "@inrupt/solid-ui-react";
-import{cal, rdf}from 'rdf-namespaces';
+import { cal, rdf } from "rdf-namespaces";
 import React from "react";
+import "./index.scss";
+import { Text, Checkbox, Button } from "@mantine/core";
 
 const TEXT_PREDICATE = "http://schema.org/text";
 const CREATED_PREDICATE = cal.created;
@@ -27,49 +29,72 @@ const COMPLETED_PREDICATE = cal.completed;
 const TODO_CLASS = cal.Vtodo;
 const TYPE_PREDICATE = rdf.type;
 
-interface todoListProps{
+interface todoListProps {
   todoList: SolidDataset & WithServerResourceInfo;
-  setTodoList: React.Dispatch<React.SetStateAction<SolidDataset & WithServerResourceInfo>>;
+  setTodoList: React.Dispatch<
+    React.SetStateAction<SolidDataset & WithServerResourceInfo>
+  >;
 }
 
-interface dateBind{
+interface dateBind {
   value: Date;
 }
 
-function CompletedBody({ checked, handleCheck }:{checked: boolean, handleCheck: (thing: Thing, checked: boolean) => void}) {
+function CompletedBody({
+  checked,
+  handleCheck,
+}: {
+  checked: boolean;
+  handleCheck: (thing: Thing, checked: boolean) => void;
+}) {
   const { thing } = useThing();
   return (
-    <label>
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={() => handleCheck(thing as Thing, checked)}
-      />
-    </label>
+    <Checkbox
+      checked={checked}
+      style={{ textAlign: "center", display: "flex", justifyContent: "center", width: "auto" }}
+      onChange={() => handleCheck(thing as Thing, checked)}
+    />
   );
 }
 
-function DeleteButton({ deleteTodo}: { deleteTodo: (todo:Thing) => void }) {
+function DeleteButton({ deleteTodo }: { deleteTodo: (todo: Thing) => void }) {
   const { thing } = useThing();
   return (
-    <button className="delete-button" onClick={() => deleteTodo(thing as Thing)}>
+    <Button
+      className="delete-button"
+      variant="outline"
+      style={{ margin: "4px" }}
+      onClick={() => deleteTodo(thing as Thing)}
+    >
       Delete
-    </button>
+    </Button>
   );
 }
 
-function TodoList({ todoList, setTodoList }:todoListProps) {
+function TodoList({ todoList, setTodoList }: todoListProps) {
   const todoThings = todoList ? getThingAll(todoList) : [];
-  todoThings.sort((a:Thing, b:Thing): number => {
-    if(getDatetime(a, CREATED_PREDICATE)! > getDatetime(b, CREATED_PREDICATE)!)
-      {
-        return -1;
-      }
-    else
-    {
+  todoThings.sort((a: Thing, b: Thing): number => {
+    if (
+      (getDatetime(a, COMPLETED_PREDICATE) !== null) && (getDatetime(b, COMPLETED_PREDICATE) === null))
+     {
       return 1;
     }
-
+    if (
+      (getDatetime(a, COMPLETED_PREDICATE) === null) && (getDatetime(b, COMPLETED_PREDICATE)  !== null))
+     {
+      return -1;
+    }
+    if (
+      getDatetime(a, CREATED_PREDICATE)! > getDatetime(b, CREATED_PREDICATE)!
+    ) {
+      return -1;
+    }
+    if (
+      getDatetime(a, CREATED_PREDICATE)! < getDatetime(b, CREATED_PREDICATE)!
+    ) {
+      return 1;
+    }
+    return 0;
   });
 
   const { fetch } = useSession();
@@ -92,7 +117,7 @@ function TodoList({ todoList, setTodoList }:todoListProps) {
     setTodoList(updatedList);
   };
 
-  const deleteTodo = async (todo:Thing) => {
+  const deleteTodo = async (todo: Thing) => {
     const todosUrl = getSourceUrl(todoList);
     const updatedTodos = removeThing(todoList, todo);
     const updatedDataset = await saveSolidDatasetAt(todosUrl, updatedTodos, {
@@ -119,7 +144,7 @@ function TodoList({ todoList, setTodoList }:todoListProps) {
           property={CREATED_PREDICATE}
           dataType="datetime"
           header="Created At"
-          body={({ value}: dateBind) => value.toDateString()}
+          body={({ value }: dateBind) => <Text>{value.toDateString()}</Text>}
           sortable
         />
         <TableColumn
