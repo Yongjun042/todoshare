@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/todoshare/static/css/main.17e9f1b7.chunk.css",
+    "main.js": "/todoshare/static/js/main.ab112b68.chunk.js",
+    "main.js.map": "/todoshare/static/js/main.ab112b68.chunk.js.map",
+    "runtime-main.js": "/todoshare/static/js/runtime-main.7ee245d9.js",
+    "runtime-main.js.map": "/todoshare/static/js/runtime-main.7ee245d9.js.map",
+    "static/js/2.2923d55a.chunk.js": "/todoshare/static/js/2.2923d55a.chunk.js",
+    "static/js/2.2923d55a.chunk.js.map": "/todoshare/static/js/2.2923d55a.chunk.js.map",
+    "static/js/3.9b16b4cb.chunk.js": "/todoshare/static/js/3.9b16b4cb.chunk.js",
+    "static/js/3.9b16b4cb.chunk.js.map": "/todoshare/static/js/3.9b16b4cb.chunk.js.map",
+    "static/js/4.6ab4fa32.chunk.js": "/todoshare/static/js/4.6ab4fa32.chunk.js",
+    "static/js/4.6ab4fa32.chunk.js.map": "/todoshare/static/js/4.6ab4fa32.chunk.js.map",
+    "static/js/5.974166ff.chunk.js": "/todoshare/static/js/5.974166ff.chunk.js",
+    "static/js/5.974166ff.chunk.js.map": "/todoshare/static/js/5.974166ff.chunk.js.map",
+    "index.html": "/todoshare/index.html",
+    "static/css/main.17e9f1b7.chunk.css.map": "/todoshare/static/css/main.17e9f1b7.chunk.css.map",
+    "static/js/2.2923d55a.chunk.js.LICENSE.txt": "/todoshare/static/js/2.2923d55a.chunk.js.LICENSE.txt",
+    "static/js/3.9b16b4cb.chunk.js.LICENSE.txt": "/todoshare/static/js/3.9b16b4cb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7ee245d9.js",
+    "static/js/2.2923d55a.chunk.js",
+    "static/css/main.17e9f1b7.chunk.css",
+    "static/js/main.ab112b68.chunk.js"
+  ]
+}
