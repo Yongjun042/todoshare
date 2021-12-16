@@ -32,11 +32,11 @@ function CHeader() {
           thingUrl={session.info.webId}
         >
           <div className="logged-in" style={{display:"inline-blockz"}}>
-            <span>You are logged in as: </span>
+            <span>Hello </span>
             <Text
               properties={[
-                "http://xmlns.com/foaf/0.1/name",
                 "http://www.w3.org/2006/vcard/ns#fn",
+                "http://xmlns.com/foaf/0.1/name",
               ]}
             />
             <LogoutButton>
