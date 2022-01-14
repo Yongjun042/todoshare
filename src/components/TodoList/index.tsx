@@ -73,29 +73,29 @@ function DeleteButton({ deleteTodo }: { deleteTodo: (todo: Thing) => void }) {
 
 function TodoList({ todoList, setTodoList }: todoListProps) {
   const todoThings = todoList ? getThingAll(todoList) : [];
-  todoThings.sort((a: Thing, b: Thing): number => {
-    if (
-      (getDatetime(a, COMPLETED_PREDICATE) !== null) && (getDatetime(b, COMPLETED_PREDICATE) === null))
-     {
-      return 1;
-    }
-    if (
-      (getDatetime(a, COMPLETED_PREDICATE) === null) && (getDatetime(b, COMPLETED_PREDICATE)  !== null))
-     {
-      return -1;
-    }
-    if (
-      getDatetime(a, CREATED_PREDICATE)! > getDatetime(b, CREATED_PREDICATE)!
-    ) {
-      return -1;
-    }
-    if (
-      getDatetime(a, CREATED_PREDICATE)! < getDatetime(b, CREATED_PREDICATE)!
-    ) {
-      return 1;
-    }
-    return 0;
-  });
+  // todoThings.sort((a: Thing, b: Thing): number => {
+  //   if (
+  //     (getDatetime(a, COMPLETED_PREDICATE) !== null) && (getDatetime(b, COMPLETED_PREDICATE) === null))
+  //    {
+  //     return 1;
+  //   }
+  //   if (
+  //     (getDatetime(a, COMPLETED_PREDICATE) === null) && (getDatetime(b, COMPLETED_PREDICATE)  !== null))
+  //    {
+  //     return -1;
+  //   }
+  //   if (
+  //     getDatetime(a, CREATED_PREDICATE)! > getDatetime(b, CREATED_PREDICATE)!
+  //   ) {
+  //     return -1;
+  //   }
+  //   if (
+  //     getDatetime(a, CREATED_PREDICATE)! < getDatetime(b, CREATED_PREDICATE)!
+  //   ) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
   const { fetch } = useSession();
 
@@ -154,11 +154,13 @@ function TodoList({ todoList, setTodoList }: todoListProps) {
           body={({ value }: dateBind) => (
             <CompletedBody checked={Boolean(value)} handleCheck={handleCheck} />
           )}
+          sortable
         />
         <TableColumn
           property={TEXT_PREDICATE}
           header=""
           body={() => <DeleteButton deleteTodo={deleteTodo} />}
+          
         />
       </Table>
     </div>

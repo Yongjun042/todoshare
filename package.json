@@ -6,6 +6,7 @@
   "dependencies": {
     "@inrupt/solid-client": "^1.16.1",
     "@inrupt/solid-ui-react": "^2.6.0",
+    "@inrupt/vocab-common-rdf": "^1.0.3",
     "@mantine/core": "^3.3.2",
     "@mantine/hooks": "^3.3.2",
     "@picocss/pico": "^1.4.1",

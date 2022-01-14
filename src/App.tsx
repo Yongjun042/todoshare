@@ -11,17 +11,22 @@ import {
   getThing,
   SolidDataset,
   WithServerResourceInfo,
+  createThing,
+  addUrl,
+  setThing,
+  saveSolidDatasetAt,
+  getThingAll,
+  addStringNoLocale,
 } from "@inrupt/solid-client";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
-import { getOrCreateTodoList } from "./utils";
+import { getOrCreateTodoStorageUri, getOrCreateTodoList } from "./utils";
 import { space } from "rdf-namespaces";
 import { AppShell,} from "@mantine/core";
 import CHeader from "./components/CHeader";
 import "./App.scss";
 
 const STORAGE_PREDICATE = space.storage;
-
 
 
 function App() {
@@ -34,13 +39,7 @@ function App() {
   useEffect(() => {
     if (!session || !session.info.isLoggedIn) return;
     (async () => {
-      const profileDataset = await getSolidDataset(session.info.webId!, {
-        fetch: session.fetch,
-      });
-      const profileThing = getThing(profileDataset, session.info.webId!);
-      const podsUrls = getUrlAll(profileThing!, STORAGE_PREDICATE);
-      const pod = podsUrls[0];
-      const containerUri = `${pod}todos/`;
+      const containerUri= await getOrCreateTodoStorageUri(session);
       const list = await getOrCreateTodoList(containerUri, session.fetch);
       setTodoList(list);
     })();
