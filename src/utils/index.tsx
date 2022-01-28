@@ -64,3 +64,20 @@ export async function getOrCreateTodoList(
     }
   }
 }
+
+
+export async function checkExist(
+  containerUri: string | URL,
+  fetch: any
+) {
+  const indexUrl = `${containerUri}index.ttl`;
+  try {
+    const temp =await getSolidDataset(indexUrl, { fetch });
+    return true;
+  } catch (error: any) {
+    if (error.statusCode === 404) {
+      return false;
+    }
+    return false;
+  }
+}

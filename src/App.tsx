@@ -6,42 +6,37 @@ import {
   CombinedDataProvider,
 } from "@inrupt/solid-ui-react";
 import {
-  getSolidDataset,
-  getUrlAll,
-  getThing,
   SolidDataset,
   WithServerResourceInfo,
-  createThing,
-  addUrl,
-  setThing,
-  saveSolidDatasetAt,
-  getThingAll,
-  addStringNoLocale,
 } from "@inrupt/solid-client";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import { getOrCreateTodoStorageUri, getOrCreateTodoList } from "./utils";
-import { space } from "rdf-namespaces";
-import { AppShell,} from "@mantine/core";
+import { AppShell, Navbar} from "@mantine/core";
 import CHeader from "./components/CHeader";
 import "./App.scss";
-
-const STORAGE_PREDICATE = space.storage;
+import ShowList from "./components/ShowList";
+import AddList from "./components/AddList";
 
 
 function App() {
   const { session } = useSession();
+
   const [todoList, setTodoList] = useState<
-    SolidDataset & WithServerResourceInfo
-  >();
+    SolidDataset & WithServerResourceInfo | null
+  >(null);
+  const [list, setList] = useState<
+  SolidDataset & WithServerResourceInfo
+>();
 
 
   useEffect(() => {
     if (!session || !session.info.isLoggedIn) return;
     (async () => {
       const containerUri= await getOrCreateTodoStorageUri(session);
-      const list = await getOrCreateTodoList(containerUri, session.fetch);
-      setTodoList(list);
+      const listUri = await getOrCreateTodoList(containerUri, session.fetch);
+      setTodoList(null);
+      setList(listUri);
     })();
   }, [session, session.info.isLoggedIn]);
 
@@ -51,6 +46,31 @@ function App() {
       header={
         <CHeader/>
       }
+      navbar={<Navbar width={{ base: 300 }} height={500} padding="xs">
+        <Navbar.Section>
+        <AddList
+        list={list as SolidDataset & WithServerResourceInfo}
+        setList={
+          setList as React.Dispatch<
+            React.SetStateAction<SolidDataset & WithServerResourceInfo>
+          >
+        }/>
+        </Navbar.Section>
+        <Navbar.Section>
+        <ShowList
+        list={list as SolidDataset & WithServerResourceInfo}
+        setList={
+          setList as React.Dispatch<
+            React.SetStateAction<SolidDataset & WithServerResourceInfo>
+          >}
+        todoList={todoList as SolidDataset & WithServerResourceInfo}
+        setTodoList={
+          setTodoList as React.Dispatch<
+            React.SetStateAction<SolidDataset & WithServerResourceInfo|null>
+          >
+        }/>
+        </Navbar.Section>
+      </Navbar>}
     >
       {session.info.isLoggedIn && session.info.webId ? (
         <CombinedDataProvider

@@ -30,6 +30,13 @@ interface todoListProps{
 function AddTodo( {todoList, setTodoList}: todoListProps) {
   const { session } = useSession();
   const [todoText, setTodoText] = useState("");
+  let isTodoNull = false;
+  if(todoList === null){
+    isTodoNull = true;
+  }
+  else{
+    isTodoNull=false;
+  }
 
   const addTodo = async (text:string) => {
     const indexUrl = getSourceUrl(todoList);
@@ -67,8 +74,9 @@ function AddTodo( {todoList, setTodoList}: todoListProps) {
             label="Todo is..."
             value={todoText}
             onChange={handleChange}
-            rightSection={<Button className="add-button" type="submit">Add Todo</Button>}
+            rightSection={<Button className="add-button" type="submit" disabled = {isTodoNull}>Add Todo</Button>}
             rightSectionWidth={100}
+            
           />
         
       </form>
