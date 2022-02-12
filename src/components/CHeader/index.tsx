@@ -4,14 +4,11 @@ import {
     LogoutButton,
     CombinedDataProvider,
     Text,} from "@inrupt/solid-ui-react"
-
 import React, {useState,}from "react";
-
 import{ Header , TextInput, Button,} from "@mantine/core";
-
 import "./index.scss";
 
-
+// login section
 function CHeader() {
     const { session } = useSession();
 

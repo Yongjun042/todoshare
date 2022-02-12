@@ -15,8 +15,6 @@ import {
   saveSolidDatasetAt,
   setThing,
   addUrl,
-  SolidDataset ,
-  WithServerResourceInfo,
   Thing,
   removeThing,
   getThingAll,
@@ -24,25 +22,24 @@ import {
   getStringNoLocale,
 } from "@inrupt/solid-client";
 import {
-  Table,
-  TableColumn,
   useThing,
 } from "@inrupt/solid-ui-react";
-import{cal, rdf, space}from 'rdf-namespaces';
+import{ rdf, space}from 'rdf-namespaces';
 import { TextInput, Button } from "@mantine/core";
-import "./index.scss";
 import { checkExist } from "../../utils";
+import { SolidDataWithServer } from "../../types";
+import "./index.scss";
 
 const TEXT_PREDICATE = "http://schema.org/text";
-const TODO_CLASS = cal.Vtodo;
 const TYPE_PREDICATE = rdf.type;
 const STORAGE_PREDICATE = space.storage;
 
 interface listProps{
-  list: SolidDataset & WithServerResourceInfo;
-  setList: React.Dispatch<React.SetStateAction<SolidDataset & WithServerResourceInfo>>;
+  list: SolidDataWithServer;
+  setList: React.Dispatch<React.SetStateAction<SolidDataWithServer>>;
 }
 
+//마저 구현하기
 function DeleteButton({ deleteTodo }: { deleteTodo: (todo: Thing) => void }) {
   const { thing } = useThing();
   return (
@@ -132,13 +129,13 @@ if (!thingsArray.length) return null;
       </Navbar.Section>
           <Navbar.Section>
       <ul>
-        {thingsArray.map((thing) => (<li>{getStringNoLocale(thing.thing,TEXT_PREDICATE)}</li>))}
+        {thingsArray.map((thing) => (<li>{getStringNoLocale(thing.thing,TEXT_PREDICATE)}<DeleteButton deleteTodo={deleteTodo} /></li>))}
       </ul>
       </Navbar.Section>
         </CombinedDataProvider>
       ) : (
         <div>
-            fdsa
+          <p>You are not logged in</p>
         </div>
       )}
     </Navbar>

@@ -8,8 +8,6 @@ import {
   removeThing,
   saveSolidDatasetAt,
   setThing,
-  SolidDataset,
-  WithServerResourceInfo,
   Thing,
 } from "@inrupt/solid-client";
 import {
@@ -20,8 +18,9 @@ import {
 } from "@inrupt/solid-ui-react";
 import { cal, rdf } from "rdf-namespaces";
 import React from "react";
-import "./index.scss";
 import { Text, Checkbox, Button } from "@mantine/core";
+import { SolidDataWithServer } from "../../types";
+import "./index.scss";
 
 const TEXT_PREDICATE = "http://schema.org/text";
 const CREATED_PREDICATE = cal.created;
@@ -30,10 +29,8 @@ const TODO_CLASS = cal.Vtodo;
 const TYPE_PREDICATE = rdf.type;
 
 interface todoListProps {
-  todoList: SolidDataset & WithServerResourceInfo;
-  setTodoList: React.Dispatch<
-    React.SetStateAction<SolidDataset & WithServerResourceInfo>
-  >;
+  todoList: SolidDataWithServer;
+  setTodoList: React.Dispatch<React.SetStateAction<SolidDataWithServer>>;
 }
 
 interface dateBind {
@@ -51,7 +48,12 @@ function CompletedBody({
   return (
     <Checkbox
       checked={checked}
-      style={{ textAlign: "center", display: "flex", justifyContent: "center", width: "auto" }}
+      style={{
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        width: "auto",
+      }}
       onChange={() => handleCheck(thing as Thing, checked)}
     />
   );
@@ -76,6 +78,11 @@ function TodoList({ todoList, setTodoList }: todoListProps) {
 
   const { fetch } = useSession();
 
+  /**
+   * add check to Thing as COMPLETED and save
+   * @param todo todo Thing
+   * @param checked is todo completed
+   */
   const handleCheck = async (todo: Thing, checked: boolean) => {
     const todosUrl = getSourceUrl(todoList);
     let updatedTodos;
@@ -137,7 +144,6 @@ function TodoList({ todoList, setTodoList }: todoListProps) {
           property={TEXT_PREDICATE}
           header=""
           body={() => <DeleteButton deleteTodo={deleteTodo} />}
-          
         />
       </Table>
     </div>

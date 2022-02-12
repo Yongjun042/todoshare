@@ -12,13 +12,21 @@ import {
 import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 import { space } from "rdf-namespaces";
 
+/**
+ * 
+ * @param session Solid session
+ * @returns Uri of the container of the todo list
+ */
 export async function getOrCreateTodoStorageUri(session: any) {
   let profileDataset = await getSolidDataset(session.info.webId!, {
     fetch: session.fetch,
   });
   const STORAGE_PREDICATE = space.storage;
+  //Thing that have the storage predicate and Uri of storage
+  // Sudo thing
   const pTodo = session.info.webId.split("#")[0] + "#pTodo";
   const pTodoThing = getThing(profileDataset, pTodo);
+  //get the storage uri or create a new one if not exist
   if (pTodoThing) {
     const pTodoUrl = getUrlAll(pTodoThing, STORAGE_PREDICATE);
     return pTodoUrl[0];
@@ -43,7 +51,13 @@ export async function getOrCreateTodoStorageUri(session: any) {
   }
 }
 
-export async function getOrCreateTodoList(
+/**
+ * 
+ * @param containerUri Uri of the container of the todo list
+ * @param fetch Solid session
+ * @returns Dataset
+ */
+export async function getOrCreateDataset(
   containerUri: string | URL,
   fetch: any
 ) {
@@ -65,14 +79,19 @@ export async function getOrCreateTodoList(
   }
 }
 
-
+/**
+ * 
+ * @param containerUri Uri of the container of solid storage
+ * @param fetch Solid session
+ * @returns that Uri exist
+ */
 export async function checkExist(
   containerUri: string | URL,
   fetch: any
 ) {
   const indexUrl = `${containerUri}index.ttl`;
   try {
-    const temp =await getSolidDataset(indexUrl, { fetch });
+    await getSolidDataset(indexUrl, { fetch });
     return true;
   } catch (error: any) {
     if (error.statusCode === 404) {
